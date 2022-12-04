@@ -4,9 +4,10 @@ import pathlib
 from scipy.io import wavfile
 
 
-libname     = "libwhisper.so"
-fname_model = "models/ggml-base.en.bin"
-fname_wav   = "samples/jfk.wav"
+whisper_folder = "."
+libname     = f"{whisper_folder}/libwhisper.so"
+fname_model = f"{whisper_folder}/models/ggml-base.en.bin"
+fname_wav   = f"{whisper_folder}/samples/jfk.wav"
 is_verbose = True
 
 # this needs to match the C struct in ./whisper.h
@@ -81,6 +82,11 @@ if __name__ == "__main__":
     if is_verbose:
         print("convert to 32-bit float")
     data = data.astype('float32')/32768.0
+
+    params.print_special = is_verbose
+    params.print_progress = is_verbose
+    params.print_realtime = is_verbose
+    params.print_timestamps = is_verbose
 
     if is_verbose:
         print("run the inference")
